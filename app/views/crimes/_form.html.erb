@@ -1,0 +1,46 @@
+<% unless @cities.nil? && @localities.nil? && @crs.nil? %>
+        <%= form_with(id: "crime_form", model: crime, class: "contents")do |f| %>
+          <div class="form-group">
+            <%= f.label "Crime type:" %>
+            <%= f.text_field :crime_type, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label "Description:" %>
+            <%= f.text_area :description, class: "form-control" %>
+          </div>
+          <%= f.fields_for @locality do |f| %>
+            <div data-controller="form-element">
+              <%= f.button "Validate", formaction: new_crime_path, formmethod: :get,
+              data: { turbo_frame: :locality_field, form_element_target: "submitbtn" },
+              class: "btn btn-primary" %>
+              <%= f.label "Cities:" %>
+              <%= f.collection_select :city_id, @cities.order(:city), :id, :city,
+              { include_blank: "Select" },
+              { class: "form-control", data: { action: "change->form-element#remotesubmit" } } %>
+            </div>
+          <% end %>
+          <%= turbo_frame_tag :location_field do %>
+            <div class="form-group">
+              <% unless @city.nil? %>
+                <%= f.label "Locality:" %>
+                <%= f.collection_select :locality_id, @city.localities.order(:locality), :id, :locality,
+                { include_blank: "Select" },
+                { class: "form-control" } %>
+              <% end %>
+            </div>
+          <% end %>
+          <div class="form-group">
+            <%= f.label "Priority:" %>
+            <%= f.select :priority, Crime.priorities.keys, {}, class: "form-control" %>
+          </div>
+          <h1>Reporter Details</h1>
+          <%= f.fields_for @cr do |f| %>
+            <div class="form-group">
+              <%= f.label "Name:" %>
+              <%= f.text_field :reporter, class: "form-control" %>
+            </div>
+          <% end %>
+          <%= f.submit "Report crime", class: "btn btn-primary" %>
+        <% end %>
+      <% end %>
+    </div>

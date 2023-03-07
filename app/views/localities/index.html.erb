@@ -1,0 +1,14 @@
+<%= render "shared/remote_modal", title: "Available locations" do %>
+
+    <ul class="list-group mb-5">
+    <% @localities.each do |locality| %>
+      <li class="list-group-item">
+        <%= "#{locality.locality} belongs to #{locality.city.city}" %>
+      </li>
+    <% end %>
+  </ul>
+  
+    
+    <h2><%= link_to 'Back', root_path , class: "btn btn-primary "%></h2>
+    
+<% end %>

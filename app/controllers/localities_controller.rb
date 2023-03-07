@@ -14,25 +14,33 @@ class LocalitiesController < ApplicationController
   
     def create
       @locality = Locality.new(locality_params)
-      if @locality.save
-        flash[:notice] = "Successfully added new locality."
-        redirect_to crimes_url
-      else
-        format.turbo_stream { render :form_update, status: :unprocessable_entity }
+      respond_to do |format|
+        if @locality.save
+          format.html { redirect_to root_path, notice: "Locality added registered." }
+          format.json { render :show, status: :created, location: @locality }
+        else
+          format.turbo_stream { render :form_update, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_entity }
+         end
       end
-    end
+   end
   
     def edit
     end
-  
+
     def update
-      if @locality.update(locality_params)
-        flash[:notice] = "Locality information updated successfully."
-        redirect_to crimes_url
-      else
-        format.turbo_stream { render :form_update, status: :unprocessable_entity }
-      end
-    end
+        respond_to do |format|
+          if @locality.update(locality_params)
+            format.html { redirect_to root_path, notice: "Locality added registered." }
+            format.json { render :show, status: :created, location: @locality }
+          else
+            format.turbo_stream { render :form_update, status: :unprocessable_entity }
+            format.html { render :new, status: :unprocessable_entity }
+           end
+        end
+     end
+
+
   
     def destroy
       @locality.destroy

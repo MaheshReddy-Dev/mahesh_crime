@@ -30,26 +30,30 @@ class CrimesController < ApplicationController
       @locality = Locality.create(locality: params[:crime][:locality][:locality], city_id: params[:crime][:locality][:city_id])
       @crime.locality_id = @locality.id
     end
-    if @crime.save
-      flash[:notice] = "The crime was registered successfully."
-      redirect_to crimes_url
-    else
-      format.turbo_stream { render :form_update, status: :unprocessable_entity }
-      render 'new', status: :unprocessable_entity
+    respond_to do |format|
+        if @crime.save
+          format.turbo_stream 
+          format.html { redirect_to root_path, notice: "Crime succesfully registered." }
+          format.json { render :show, status: :created, location: @crime }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+        end
     end
-  end
+end
 
   def edit
   end
 
   def update
-    if @crime.update(crime_params)
-      flash[:notice] = "crime information updated successfully."
-      redirect_to crimes_url
-    else
-      format.turbo_stream { render :form_update, status: :unprocessable_entity }
-      render 'edit', status: :unprocessable_entity
-    end
+     respond_to do |format|
+       if @crime.update(crime_params)
+         format.html { redirect_to root_path, notice: "Crime details updated succesfully." }
+         format.json { render :show, status: :created, crime: @crime }
+       else
+         format.turbo_stream { render :form_update, status: :unprocessable_entity }
+         format.html { render :edit, status: :unprocessable_entity }
+        end
+     end
   end
 
   def destroy

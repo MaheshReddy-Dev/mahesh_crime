@@ -16,7 +16,7 @@ def create
  @city = City.new(city_params)
  respond_to do |format|
     if @city.save
-      format.html { redirect_to root_path, notice: "City succesfully registered." }
+      format.html { redirect_to city_path(@city), notice: "City succesfully registered." }
       format.json { render :show, status: :created, location: @city }
     else
       format.turbo_stream { render :form_update, status: :unprocessable_entity }
@@ -30,13 +30,18 @@ def edit
 end
 
 def update
- if @city.update(city_params)
-  flash[:notice] = "#{@city.city} information updated successfully."
-  redirect_to root_path
-  else
-    format.turbo_stream { render :form_update, status: :unprocessable_entity }
-  end
-end
+    respond_to do |format|
+       if @city.update(city_params)
+         format.html { redirect_to root_path, notice: "City succesfully Updated." }
+         format.json { render :show, status: :created, location: @city }
+       else
+         format.turbo_stream { render :form_update, status: :unprocessable_entity }
+         format.html { render :new, status: :unprocessable_entity }
+         format.json { render json: @city.errors, status: :unprocessable_entity }
+       end
+     end
+   end
+
 
 def destroy
     @city.destroy
