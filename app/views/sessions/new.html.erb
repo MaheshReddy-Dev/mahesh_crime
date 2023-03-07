@@ -1,0 +1,9 @@
+<h1><strong>Batman login page</strong></h1>
+
+<%=form_with(scope: :session, url: login_path) do |f|%>
+  <p><%=f.label "username:"%>
+  <%=f.text_field :username%></p>
+  <p><%=f.label "password:"%>
+  <%=f.password_field :password%></p>
+  <%=f.submit "Sign in"%>
+<% end %>

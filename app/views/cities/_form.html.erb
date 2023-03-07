@@ -1,0 +1,7 @@
+<%= form_with(model: city) do |f| %><h3>
+    <%= f.label "City name:"%>
+    <%= f.text_field :city%>
+    <%= f.submit %>
+
+    <%= link_to "Back to crimes", root_path %>
+<% end %>

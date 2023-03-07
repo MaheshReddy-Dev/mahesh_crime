@@ -1,0 +1,41 @@
+<%= render "shared/remote_modal", title: "Crime Details" do %>
+<ul>
+  <li><u>crime type:</u>
+  <%=@crime.crime_type%></li>
+  <li><u>crime description:</u>
+  <%=@crime.description%></li>
+  <li><u>city:</u>
+  <%=@crime.locality.city.city%></li>
+  <li><u>locality:</u>
+  <%=@crime.locality.locality%></li>
+  <%if logged_in?%>
+    <li>
+      <u>crime status:</u>
+      <%if @crime.resolved?%>
+        resolved
+      <%else%>
+        unresolved
+      <%end%>
+    </li>
+  <%end%>
+  <% if @crime.priority == "high"%>
+    <li><u>crime priority:</u><div style="color:red;"><b><%=@crime.priority%></b></div></li>
+    <% elsif @crime.priority == "medium"%>
+    <li><u>crime priority:</u><div style= "color: orange;"><b><%=@crime.priority%></b></div></li>
+    <% else %>
+    <li><u>crime priority:</u><div style= "color: green;"><b><%=@crime.priority%></b></div></li>
+  <% end %>
+  <li><u>Reported on:</u>
+  <%=@crime.created_at.strftime("%m-%d-%y at %I:%M%p")%></li>
+  <h1> Repoter Details </h1>
+  <li><u>Name</u>
+  <%=@crime.crime_reporter.reporter%></li>
+</ul>
+
+<h2>
+  <%=link_to 'Back', crimes_url%>
+  <%if logged_in?%>
+  | <%=link_to 'Delete crime details', crime_path(@crime), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}%>
+  <%end%>
+</h2>
+<% end %>

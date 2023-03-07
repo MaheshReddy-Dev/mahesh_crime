@@ -1,0 +1,7 @@
+<%= render "shared/remote_modal", title: "City Details", class: "modal-lg" do %>
+<%= render 'shared/errors', obj: @locality%>
+
+<h1>Add locality </h1>
+
+<%= render "form", locality: @locality %>
+<% end %>

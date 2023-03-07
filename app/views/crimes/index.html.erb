@@ -1,0 +1,99 @@
+<head>
+  <title>Crime Reporting Portal</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container mt-4">
+    <h1 class="text-center mb-4"><b>Welcome to Crime Reporting Portal</b></h1>
+
+    <% if logged_in? %>
+      <% r_count = 0 %>
+      <% u_count = 0 %>
+      <% @crimes.each do |c| %>
+        <% if c.resolved? %>
+          <% r_count += 1 %>
+        <% else %>
+          <% u_count += 1 %>
+        <% end %>
+      <% end %>
+      <div class="row mb-4">
+        <div class="col-md-4 offset-md-2">
+          <div class="card">
+            <div class="card-header bg-success text-white">Resolved Crimes</div>
+            <div class="card-body">
+              <h3 class="card-title"><%= r_count %></h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header bg-danger text-white">Unresolved Crimes</div>
+            <div class="card-body">
+              <h3 class="card-title"><%= u_count %></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% if @crimes.empty? %>
+    <% if logged_in? %>
+    <div class="text-center">
+      <h3><b>No crimes have been reported in this Area. It is safe.</b></h3>
+      </div>
+    <% else %>
+    <div class="text-center">
+      <h3><b>This Area has no crimes. It is under Batman's protection. To registered a crime please click the below  the link</b></h3>
+      </div>
+    <% end %>
+  <% else %>
+    <h2 class="mb-3">List of all Crimes</h2>
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Crime Type</th>
+          <th>City</th>
+          <th>Locality</th>
+          <th>Priority</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @crimes.each do |crime| %>
+          <tr>
+            <td><%= crime.crime_type %></td>
+            <td><%= link_to crime.locality.city.city, city_path(crime.locality.city), data: { turbo_frame: "remote_modal" } %></td>
+            <td><%= link_to crime.locality.locality, locality_path(crime.locality), data: { turbo_frame: "remote_modal" } %></td>
+            <% if crime.priority == "high" %>
+              <td class="text-danger"><b><%= crime.priority %></b></td>
+            <% elsif crime.priority == "medium" %>
+              <td class="text-warning"><b><%= crime.priority %></b></td>
+            <% else %>
+              <td class="text-success"><b><%= crime.priority %></b></td>
+        <% end %>
+        <td>
+          <%=link_to 'View', crime, data: { turbo_frame: "remote_modal" }, class: "btn btn-outline-success"%>
+          <%=link_to 'Edit', edit_crime_path(crime), data: { turbo_frame: "remote_modal" }, class: "btn btn-outline-primary"%>
+          <% if logged_in? %>
+          <%=link_to 'Delete', crime, class: "btn btn-outline-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}%>
+          <% end %>        
+          </td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<% unless logged_in? %>
+<h2 class="text-center p-2">
+  <%=link_to 'Add new city', new_city_path,data: { turbo_frame: "remote_modal" }, class: "btn btn-success"%>
+<% end %>
+  <%if logged_in?%>
+  <%=link_to 'log out', logout_path, method: :delete,  class: "btn btn-primary"%>
+<% end %>
+  <%unless logged_in?%>
+    <%=link_to 'Report a new crime', new_crime_path, data: { turbo_frame: "remote_modal" }, class: "btn btn-primary"%>
+    <%=link_to 'User login', login_path,  class: "btn btn-secondary"%>
+  <% end %>
+</h2>

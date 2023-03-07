@@ -1,0 +1,42 @@
+<%= render "shared/remote_modal", title: "City Details", class: "modal-lg" do %>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <p>City Name: <%= @city.city %></p>
+  
+          <h2>Localities:</h2>
+          <% if @city.localities.any? %>
+            <ul>
+              <% @city.localities.each do |locality| %>
+                <li class="list-unstyled">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <%= link_to locality.locality, locality_path(locality) %>
+                    </div>
+                    <div class="col-md-6">
+                      <% if locality.crimes.any? %>
+                        <ul class="list-unstyled">
+                          <% locality.crimes.each do |crime| %>
+                            <li><%= crime.crime_type %></li>
+                          <% end %>
+                        </ul>
+                      <% else %>
+                        <p>No crimes reported in this locality.</p>
+                      <% end %>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p>No localities added to this city.</p>
+          <% end %>
+  
+          <p><%= link_to 'Add New Locality', new_locality_path(city_id: @city.id),data: { turbo_frame: "remote_modal" }, class: "btn btn-primary" %></p>
+        </div>
+      </div>
+    </div>
+  
+    <h2><%= link_to 'Back', crimes_path, class: "btn btn-secondary" %></h2>
+  <% end %>
+  
