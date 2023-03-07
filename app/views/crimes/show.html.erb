@@ -33,7 +33,7 @@
 </ul>
 
 <h2>
-  <%=link_to 'Back', crimes_url%>
+  <%=link_to 'Back', crimes_url,class: "btn btn-secondary"%>
   <%if logged_in?%>
   | <%=link_to 'Delete crime details', crime_path(@crime), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}%>
   <%end%>

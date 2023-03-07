@@ -11,7 +11,7 @@
                 <li class="list-unstyled">
                   <div class="row">
                     <div class="col-md-6">
-                      <%= link_to locality.locality, locality_path(locality) %>
+                      <%= link_to locality.locality, locality_path(locality),data: { turbo_frame: "remote_modal" } %>
                     </div>
                     <div class="col-md-6">
                       <% if locality.crimes.any? %>
@@ -33,6 +33,7 @@
           <% end %>
   
           <p><%= link_to 'Add New Locality', new_locality_path(city_id: @city.id),data: { turbo_frame: "remote_modal" }, class: "btn btn-primary" %></p>
+          <%=link_to 'Edit City', edit_city_path(@city),data: { turbo_frame: "remote_modal" }, class: "btn btn-primary" %>
         </div>
       </div>
     </div>

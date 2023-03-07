@@ -9,7 +9,7 @@ reported crimes in the locality:
 <% end %>
 
 <h2>
-  <%=link_to 'Edit locality', edit_locality_path(@locality),data: { turbo_frame: "remote_modal" }%> |
-  <%=link_to 'Delete locality', locality_path(@locality), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}%>
+  <%=link_to 'Edit locality', edit_locality_path(@locality),data: { turbo_frame: "remote_modal" }, class: "btn btn-primary" %>
+  <h2><%= link_to 'Back', crimes_path, class: "btn btn-secondary" %></h2>
 </h2>
 <% end %>

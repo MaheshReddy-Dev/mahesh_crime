@@ -32,9 +32,9 @@ end
 def update
  if @city.update(city_params)
   flash[:notice] = "#{@city.city} information updated successfully."
-  redirect_to @city
+  redirect_to root_path
   else
-    render 'edit', status: :unprocessable_entity
+    format.turbo_stream { render :form_update, status: :unprocessable_entity }
   end
 end
 
