@@ -1,6 +1,3 @@
-
-<div id="crimes" class="min-w-full">
-<%= turbo_frame_tag @crime do %>
 <head>
   <title>Crime Reporting Portal</title>
 
@@ -94,17 +91,14 @@
 <% end %>
 <%= link_to "All Cities", cities_path,data: { turbo_frame: "remote_modal" }, class: "btn btn-success"%>
 <%= link_to "All localities", localities_path,data: { turbo_frame: "remote_modal" }, class: "btn btn-secondary"%>
-
   <%if logged_in?%>
   <%=link_to 'log out', logout_path, method: :delete,  class: "btn btn-primary"%>
 <% end %>
-  <%unless logged_in?%>
-  <%= turbo_frame_tag "new_crime" do %>
-    <%= link_to 'Report new crime', new_crime_path, class: "btn btn-primary" %>
+<%unless logged_in?%>
+    <%= turbo_frame_tag "new_crime" do %>
+       <%=link_to 'Report a new crime', new_crime_path, class: "btn btn-primary"%>
     <% end %>
-    </div>
-    <%=link_to 'User login', login_path,  class: "btn btn-primary"%>
-  <% end %>
-</h2>
+    <%=link_to 'Userlogin', login_path,class: "btn btn-secondary"%>
 <% end %>
-</div>
+</h2>
+
