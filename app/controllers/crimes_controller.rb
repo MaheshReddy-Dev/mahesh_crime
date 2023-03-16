@@ -1,6 +1,7 @@
 class CrimesController < ApplicationController
   before_action :set_crime, only: %i[show edit update destroy]
 
+
   def show
   end
 
@@ -32,10 +33,15 @@ class CrimesController < ApplicationController
     end
     respond_to do |format|
         if @crime.save
-          format.turbo_stream 
+          render turbo_stream: turbo_stream.replace(
+            "crimes", 
+            partial: "crimes/crime", 
+            locals: { crime: @crime }
+          ) 
           format.html { redirect_to root_path, notice: "Crime succesfully registered." }
           format.json { render :show, status: :created, location: @crime }
         else
+          format.turbo_stream { redirect_to crimes_path }
           format.html { render :new, status: :unprocessable_entity }
         end
     end
@@ -67,6 +73,8 @@ end
   def set_crime
     @crime = Crime.find(params[:id])
   end
+  
+
 
   def crime_params
     params.fetch(:crime, {}).permit(:description, :locality_id, :crime_reporter_id,

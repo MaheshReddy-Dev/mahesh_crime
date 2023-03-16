@@ -1,6 +1,5 @@
-<%= turbo_stream.prepend "crimes" do %>
-    <%= render @crime %>
-<% end %>
 <%= turbo_stream.replace "crime_form" do %>
- <%= render "form", crime: Crime.new %>
-<% end %>
+    <%= render "form", crime: Crime.new %>
+  <% end %>
+  
+ 
