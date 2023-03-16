@@ -16,7 +16,7 @@ def create
  @city = City.new(city_params)
  respond_to do |format|
     if @city.save
-      format.html { redirect_to city_path(@city), notice: "City succesfully registered." }
+      format.html { redirect_to root_path, notice: "City succesfully registered." }
       format.json { render :show, status: :created, location: @city }
     else
       format.turbo_stream { render :form_update, status: :unprocessable_entity }

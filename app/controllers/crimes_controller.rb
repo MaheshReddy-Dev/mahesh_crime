@@ -32,21 +32,21 @@ class CrimesController < ApplicationController
       @crime.locality_id = @locality.id
     end
     respond_to do |format|
-        if @crime.save
-          render turbo_stream: turbo_stream.replace(
+      if @crime.save
+        format.turbo_stream do
+          turbo_stream.replace(
             "crimes", 
             partial: "crimes/crime", 
             locals: { crime: @crime }
-          ) 
-          format.html { redirect_to root_path, notice: "Crime succesfully registered." }
-          format.json { render :show, status: :created, location: @crime }
-        else
-          format.turbo_stream { redirect_to crimes_path }
-          format.html { render :new, status: :unprocessable_entity }
+          )
         end
+        format.html { redirect_to root_path, notice: "Crime was successfully created." }
+      else
+        format.html { render :new }
+      end
     end
-end
-
+  end
+  
   def edit
   end
 
