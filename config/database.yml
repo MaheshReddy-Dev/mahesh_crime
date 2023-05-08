@@ -9,6 +9,8 @@ development:
   password: <%= Rails.application.credentials.database[:password] %>
   host: localhost
   database: mahesh_crime_development
+  secret_key_base: eff74412b0a24af88db012b10668607968a071c59779990f96d7026001f7424b1c4c1527bb421b535c81255c0e12507e24330c65f2f3fd6b64a4afe9d8eb979d
+
 
 
 test:
@@ -17,6 +19,8 @@ test:
   password: <%= Rails.application.credentials.database[:password] %>
   host: localhost
   database: mahesh_crime_test
+  secret_key_base: eff74412b0a24af88db012b10668607968a071c59779990f96d7026001f7424b1c4c1527bb421b535c81255c0e12507e24330c65f2f3fd6b64a4afe9d8eb979d
+
 
 #
 production:
@@ -24,3 +28,5 @@ production:
   database: mahesh_crime_production
   username: mahesh_crime
   password: <%= ENV["MAHESH_CRIME_DATABASE_PASSWORD"] %>
+  secret_key_base: eff74412b0a24af88db012b10668607968a071c59779990f96d7026001f7424b1c4c1527bb421b535c81255c0e12507e24330c65f2f3fd6b64a4afe9d8eb979d
+
