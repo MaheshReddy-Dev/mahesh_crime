@@ -37,7 +37,7 @@
           <%= f.fields_for @cr do |f| %>
             <div class="form-group">
               <%= f.label "Name:" %>
-              <%= f.text_field :reporter, class: "form-control" %>
+              <%= f.text_field :reporter %>
             </div>
           <% end %>
           <%= f.submit "Report crime", class: "btn btn-primary" %>
